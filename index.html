@@ -975,10 +975,10 @@
   <div class="container">
     <div class="hero-inner">
       <div class="hero-text fade-up">
-        <div class="hero-label">Engineering Screen — WindBorne Systems</div>
+        <div class="hero-label">Project Porfolio</div>
         <h1>Semi-Autonomous<br><span>Wheelchair</span><br>Navigation</h1>
         <p class="hero-sub">
-          A donated power wheelchair rebuilt into a fully sensor-fused autonomous platform — running ROS2, custom firmware, and real-time 3D perception. Built from first principles at Widener University.
+          A donated power wheelchair rebuilt into a fully sensor-fused autonomous platform, running ROS2, custom firmware, and real-time 3D perception. 
         </p>
 
         <div class="hero-stats">
@@ -1030,7 +1030,7 @@
           <div class="photo-label">ESP32 + BNO08x IMU</div>
         </div>
         <div class="hw-photo">
-          <img src="https://images.unsplash.com/photo-1601132359864-c974e79890ac?w=400&q=80" alt="LiDAR sensor mounted to frame">
+          <img src="picture7.PNG" alt="LiDAR sensor mounted to frame">
           <div class="photo-label">RPLidar A1M8 — 2D scan</div>
         </div>
       </div>
@@ -1041,7 +1041,7 @@
           <h2>The Platform</h2>
         </div>
         <p style="color:var(--text-muted);font-size:0.95rem;line-height:1.8;margin-bottom:1.5rem;">
-          Starting from a donated electric wheelchair from the Mary Campbell Center, I designed and wired a complete autonomous perception stack — from 12V lithium power distribution through edge compute to sensor drivers.
+          Starting from a donated electric wheelchair , I designed and wired a complete autonomous perception stack, from 12V lithium power distribution through edge compute to sensor drivers.
         </p>
 
         <div class="component-list">
@@ -1077,11 +1077,11 @@
         <div class="subtitle">ESP32 → ROS2 · UART · Custom framed protocol · Gyro-merge trick</div>
 
         <p>
-          The most technically interesting component I built is the <strong style="color:var(--text)">ESP32Bridge</strong> — a custom hardware abstraction layer that translates raw microcontroller sensor data into properly typed ROS2 messages. Off-the-shelf serial parsers couldn't handle the heterogeneous mix of IMU quaternions, gyro rates, and ultrasonic distances I needed to multiplex over a single UART link.
+          The most technically interesting component I built is the <strong style="color:var(--text)">ESP32Bridge</strong>, a custom hardware abstraction layer that translates raw microcontroller sensor data into properly typed ROS2 messages. Off-the-shelf serial parsers couldn't handle the heterogeneous mix of IMU quaternions, gyro rates, and ultrasonic distances I needed to multiplex over a single UART link.
         </p>
 
         <p>
-          I designed a lightweight framing protocol using angle-bracket delimiters and prefix tags. Each message type is self-identifying — the parser routes on the prefix string and never needs to track state across frames. This makes the protocol trivially extensible: adding a new sensor type is just a new prefix.
+          I designed a lightweight framing protocol using angle-bracket delimiters and prefix tags. Each message type is self-identifying. This makes the protocol trivially extensible: adding a new sensor type is just a new prefix.
         </p>
 
         <div class="code-block">
@@ -1092,7 +1092,7 @@
         </div>
 
         <p>
-          The most elegant problem I solved was the <strong style="color:var(--text)">gyro-merge trick</strong>. ROS2's <code style="font-family:var(--font-mono);font-size:12px;color:var(--teal)">sensor_msgs/Imu</code> requires orientation and angular velocity in a single message — but the ESP32 sends them as separate frames to minimize packet size. My node buffers the latest <code style="font-family:var(--font-mono);font-size:12px;color:var(--teal)">gyro_z</code> value and stamps it onto the next quaternion frame before publishing. Zero data loss, no extra bandwidth.
+          The most elegant problem I solved was the <strong style="color:var(--text)">gyro-merge trick</strong>. ROS2's <code style="font-family:var(--font-mono);font-size:12px;color:var(--teal)">sensor_msgs/Imu</code> requires orientation and angular velocity in a single message, but the ESP32 sends them as separate frames to minimize packet size. My node buffers the latest <code style="font-family:var(--font-mono);font-size:12px;color:var(--teal)">gyro_z</code> value and stamps it onto the next quaternion frame before publishing. Zero data loss.
         </p>
 
         <div class="code-block">
@@ -1109,11 +1109,11 @@
         </div>
 
         <p>
-          The ultrasonic-to-PointCloud2 conversion is another choice worth noting: rather than writing a custom message type, I map each distance reading to a single 3D point <code style="font-family:var(--font-mono);font-size:12px;color:var(--teal)">[dist, 0, 0]</code> and let ROS2's transform system rotate it into the correct world frame. The perception pipeline sees it as just another point cloud — no special casing required.
+          The ultrasonic-to-PointCloud2 conversion is another choice worth noting: rather than writing a custom message type, I map each distance reading to a single 3D point <code style="font-family:var(--font-mono);font-size:12px;color:var(--teal)">[dist, 0, 0]</code> and let ROS2's transform system rotate it into the correct world frame. The perception pipeline sees it as just another point cloud.
         </p>
 
         <p style="color:var(--text-muted);">
-          This component directly demonstrates the kind of low-level sensor integration work WindBorne does — custom drivers, calibration logic, and data pipelines for instruments that need to work reliably in harsh, uncontrolled environments.
+          This component directly demonstrates the kind of intricate detail to sensor intergration I did. custom drivers, calibration logic, and data pipelines for instruments that need to work reliably in dynamic environments.
         </p>
       </div>
 
@@ -1126,8 +1126,8 @@
             <div class="arch-nodes">
               <div class="arch-node">Pico Flexx (ToF)</div>
               <div class="arch-node">RPLidar ×2</div>
-              <div class="arch-node">BNO08x IMU</div>
-              <div class="arch-node">HC-SR04 ×4</div>
+              <div class="arch-node"> IMU</div>
+              <div class="arch-node">Ultrasonic ×4</div>
             </div>
           </div>
 
@@ -1194,10 +1194,10 @@
           </div>
           <h3>Why hysteresis is the key design choice</h3>
           <p>
-            Without hysteresis, obstacle avoidance systems oscillate — the wheelchair spins back and forth at a threshold boundary, confusing and alarming users. I solved this with two asymmetric thresholds: avoidance <em>activates</em> at 20 cm but only <em>clears</em> at 35 cm. This 15 cm dead-band means the system commits to an action before reversing it, giving smooth, predictable behavior at the cost of a tiny bit of conservatism.
+            Without hysteresis, obstacle avoidance systems oscillate, the wheelchair spins back and forth at a threshold boundary, confusing and alarming users. I solved this with two asymmetric thresholds: avoidance <em>activates</em> at 20 cm but only <em>clears</em> at 35 cm. This 15 cm dead-band means the system commits to an action before reversing it, giving smooth, predictable behavior at the cost of a tiny bit of conservatism.
           </p>
           <p style="margin-top:0.75rem;">
-            This is the difference between a system that technically works and one a person with a disability would actually trust. Every design choice in the navigation layer prioritized behavioral predictability over raw performance.
+            This is the difference between a system that technically works and one a person with a disability would actually trust. Every design choice in the navigation layer prioritized behavioral predictability and smooth motion.
           </p>
         </div>
         <div class="zone-diagram">
@@ -1239,7 +1239,7 @@
         </div>
         <h3>Sensor fusion, not sensor priority</h3>
         <p>
-          Rather than trusting a single sensor, the node subscribes to all five data streams (2× LiDAR, 2× depth camera, 4× ultrasonic) and takes the minimum distance per zone. Any sensor detecting danger triggers the response. This means a sensor dropout doesn't create a blindspot — it just means slightly less coverage.
+          Rather than trusting a single sensor, the node subscribes to all five data streams (2× LiDAR, 2× depth camera, 4× ultrasonic) and takes the minimum distance per zone. Any sensor detecting danger triggers the response. This means a sensor dropout doesn't create a blindspot, it just means slightly less coverage.
         </p>
       </div>
 
@@ -1249,7 +1249,7 @@
         </div>
         <h3>RViz live visualization</h3>
         <p>
-          Real-time point cloud visualization in RViz gives operators an immediate, intuitive view of what the robot sees — colored clouds by sensor source, URDF wheelchair model, and ultrasonic positions as 3D markers. Debugging in the field requires visual feedback, not log parsing.
+          Real-time point cloud visualization in RViz gives operators an immediate, intuitive view of what the robot sees, colored clouds by sensor source, URDF wheelchair model, and ultrasonic positions as 3D markers. Debugging in the field requires visual feedback, as its easier to observe obstacles in point cloud, that hundreds of individual sensor data in cm every minute.
         </p>
       </div>
 
@@ -1259,7 +1259,7 @@
         </div>
         <h3>MATLAB simulation-first validation</h3>
         <p>
-          Before any hardware deployment, I validated the 3-zone logic in a MATLAB simulation with a 3D STL wheelchair model and 42 ray-cast fake LiDAR beams — the same algorithm as the real node. Identical thresholds, identical state machine. Hardware got parameters that were already proven, not guesses.
+          I validated the 3-zone logic in a MATLAB simulation with a 3D STL wheelchair model and 42 ray-cast fake LiDAR beams, the same algorithm as the real node. Identical thresholds, identical state machine. I equally tested the sensors in a simulation environment.
         </p>
       </div>
     </div>
@@ -1296,7 +1296,7 @@
     <div class="award-banner fade-up">
       <div class="award-icon">🏆</div>
       <div class="award-text">
-        <h3>Undergraduate Research Symposium — Award Winner</h3>
+        <h3>Undergraduate Research Symposium - Award Winner</h3>
         <p>Recognized for technical innovation and real-world application of autonomous systems research. Presented full perception stack, obstacle avoidance results, and MATLAB simulation validation.</p>
       </div>
     </div>
@@ -1310,7 +1310,7 @@
       <div class="section-tag" style="justify-content:center;">05 — Why WindBorne</div>
       <h2>Direct Skill Alignment</h2>
       <p style="color:var(--text-muted);font-size:0.95rem;margin-top:1rem;">
-        WindBorne's sensors internship is about building, calibrating, and understanding instruments that work in the harshest environments on Earth. Here's exactly how this project maps to that.
+        I  learnt a lot from this research project, especially the skill of working under pressure, learning 
       </p>
     </div>
 
@@ -1319,7 +1319,7 @@
         <div class="align-num">01</div>
         <div class="align-skill">Hardware Drivers from Scratch</div>
         <div class="align-wb">→ WB: sensor manufacturing &amp; calibration infrastructure</div>
-        <div class="align-desc">Wrote hardware drivers for 3 distinct sensor types (ToF depth camera, 2D LiDAR, 9-DOF IMU) — not wrappers, actual driver logic from SDK up. The discipline of making sensors produce trustworthy data is identical to calibration work.</div>
+        <div class="align-desc">Wrote hardware drivers for 3 distinct sensor types (ToF depth camera, 2D LiDAR, 9-DOF IMU). The discipline of making sensors produce trustworthy data is identical to calibration work.</div>
       </div>
 
       <div class="alignment-card fade-up" style="transition-delay:0.1s">
@@ -1340,21 +1340,21 @@
         <div class="align-num">04</div>
         <div class="align-skill">Custom Calibration Infrastructure</div>
         <div class="align-wb">→ WB: improve calibration infrastructure</div>
-        <div class="align-desc">Designed the serial protocol and ROS2 bridge from scratch — this is calibration infrastructure. Choosing the right coordinate frame transforms, sensor origin offsets, and thresholds all require the same iterative measurement and correction mindset.</div>
+        <div class="align-desc">Designed the serial protocol and ROS2 bridge from scratch. this is calibration infrastructure. Choosing the right coordinate frame transforms, sensor origin offsets, and thresholds all require the same iterative measurement and correction mindset.</div>
       </div>
 
       <div class="alignment-card fade-up" style="transition-delay:0.15s">
         <div class="align-num">05</div>
         <div class="align-skill">Python + Linux + Data Analysis</div>
         <div class="align-wb">→ WB: Python proficiency, Linux/bash, data analysis</div>
-        <div class="align-desc">Every node is pure Python on Ubuntu. I debug over serial terminals, profile node timing in bash, and parse sensor logs to tune thresholds. The toolchain is identical to what WindBorne's data analysis pipeline requires.</div>
+        <div class="align-desc">Every node is pure Python on Linux Ubuntu. I debug over serial terminals, profile node timing in bash, and parse sensor logs to tune thresholds.</div>
       </div>
 
       <div class="alignment-card fade-up" style="transition-delay:0.25s">
         <div class="align-num">06</div>
         <div class="align-skill">End-to-End Ownership</div>
         <div class="align-wb">→ WB: high agency, own projects end-to-end</div>
-        <div class="align-desc">I started with a donated wheelchair and ended with a working autonomous perception system — wiring, firmware, drivers, ROS2 nodes, simulation, and deployment. No handoff. The same ownership WindBorne needs for sensors going into a global balloon constellation.</div>
+        <div class="align-desc">I started with a donated wheelchair and ended with a working autonomous perception system, wiring, firmware, drivers, ROS2 nodes, simulation, and field testingt. No handoff. </div>
       </div>
     </div>
   </div>
@@ -1367,26 +1367,26 @@
       <div class="section-tag" style="justify-content:center;">Questions via POST request</div>
       <h2>Let's Talk</h2>
       <p>
-        Reach out by email or LinkedIn — I'm excited about the opportunity to bring this hands-on sensor integration work to WindBorne's constellation.
+        Reach out by email or LinkedIn. I am looking for internship opportunities for summer 2026.
       </p>
 
       <div class="contact-links">
         <a href="mailto:salient@example.com" class="contact-chip">
           <svg viewBox="0 0 24 24" stroke-width="1.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-          salient@example.com
+          sfmakiankonghoenoh@widener.edu
         </a>
         <a href="https://linkedin.com/in/salient-fausta-makia" target="_blank" class="contact-chip">
           <svg viewBox="0 0 24 24" stroke-width="1.5"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
-          LinkedIn
+          www.linkedin.com/in/salient-fausta
         </a>
         <a href="https://github.com/salient-makia" target="_blank" class="contact-chip">
           <svg viewBox="0 0 24 24" stroke-width="1.5"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/></svg>
-          GitHub
+          https://github.com/makiafausta-netizen
         </a>
       </div>
 
       <p style="font-family:var(--font-mono);font-size:11px;color:var(--text-dim);letter-spacing:0.05em;">
-        Salient Fausta Makia · Junior Robotics, Mechatronics &amp; Automation Engineering · Widener University
+        Salient Fausta Makia · Junior Robotics, Mechatronics &amp; Automation Engineering · Minor Computer Science Widener University
       </p>
     </div>
   </div>
@@ -1394,7 +1394,7 @@
 
 <div class="footer">
   <div class="container">
-    built for windborne systems sensors internship application · 2025
+    Makia Salient Fausta Project Portfolio
   </div>
 </div>
 
