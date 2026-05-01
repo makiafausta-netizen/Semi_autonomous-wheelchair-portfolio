@@ -1,0 +1,1418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Salient Fausta Makia — Hardware Engineering Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300&family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #faf7ff;
+    --off-black: #f4effc;
+    --panel: #ffffff;
+    --border: rgba(160,120,210,0.1);
+    --border-bright: rgba(160,120,210,0.22);
+    --teal: #9b6dd6;
+    --teal-dim: rgba(155,109,214,0.1);
+    --teal-glow: rgba(155,109,214,0.04);
+    --amber: #e06fa0;
+    --amber-dim: rgba(224,111,160,0.1);
+    --text: #2a1a3e;
+    --text-muted: #7a6490;
+    --text-dim: #b8a8cc;
+    --font-display: 'Syne', sans-serif;
+    --font-body: 'DM Sans', sans-serif;
+    --font-mono: 'DM Mono', monospace;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--black);
+    color: var(--text);
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  /* ─── PASTEL GRADIENT BG ─── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 80% 60% at 10% 0%, rgba(220,180,255,0.2) 0%, transparent 60%),
+      radial-gradient(ellipse 60% 50% at 90% 100%, rgba(255,182,210,0.15) 0%, transparent 60%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ─── GRID LINES ─── */
+  .grid-bg {
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(160,120,210,0.07) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(160,120,210,0.07) 1px, transparent 1px);
+    background-size: 60px 60px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ─── NAV ─── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 2.5rem;
+    height: 60px;
+    background: rgba(250,247,255,0.88);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .nav-logo {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--teal);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 2rem;
+    list-style: none;
+  }
+
+  .nav-links a {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--text-muted);
+    text-decoration: none;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+
+  .nav-links a:hover { color: var(--teal); }
+
+  /* ─── SECTIONS ─── */
+  section {
+    position: relative;
+    z-index: 1;
+  }
+
+  .container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 2.5rem;
+  }
+
+  /* ─── HERO ─── */
+  #hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    padding-top: 60px;
+  }
+
+  .hero-inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+    width: 100%;
+  }
+
+  .hero-label {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--teal);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .hero-label::before {
+    content: '';
+    display: inline-block;
+    width: 24px;
+    height: 1px;
+    background: var(--teal);
+  }
+
+  h1 {
+    font-family: var(--font-display);
+    font-size: clamp(2.8rem, 5vw, 4.2rem);
+    font-weight: 800;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    margin-bottom: 1.5rem;
+  }
+
+  h1 span {
+    color: var(--teal);
+  }
+
+  .hero-sub {
+    font-size: 1rem;
+    color: var(--text-muted);
+    line-height: 1.75;
+    max-width: 460px;
+    margin-bottom: 2.5rem;
+  }
+
+  .hero-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 2.5rem;
+  }
+
+  .stat {
+    background: #ffffff;
+    padding: 1.25rem 1rem;
+    text-align: center;
+  }
+
+  .stat-num {
+    font-family: var(--font-display);
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--teal);
+    line-height: 1;
+    margin-bottom: 0.25rem;
+  }
+
+  .stat-label {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+
+  .hero-btns {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .btn {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.75rem 1.5rem;
+    border-radius: 4px;
+    text-decoration: none;
+    transition: all 0.2s;
+    cursor: pointer;
+    border: none;
+  }
+
+  .btn-primary {
+    background: var(--teal);
+    color: #000;
+    font-weight: 500;
+  }
+
+  .btn-primary:hover {
+    background: #00f0c0;
+    transform: translateY(-1px);
+  }
+
+  .btn-ghost {
+    background: transparent;
+    color: var(--text-muted);
+    border: 1px solid var(--border-bright);
+  }
+
+  .btn-ghost:hover {
+    color: var(--text);
+    border-color: var(--teal);
+  }
+
+  /* Hero visual side */
+  .hero-visual {
+    position: relative;
+  }
+
+  .hero-img-wrap {
+    position: relative;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid var(--border-bright);
+  }
+
+  .hero-img-wrap img {
+    width: 100%;
+    display: block;
+    filter: saturate(0.85) contrast(1.05);
+  }
+
+  .hero-img-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(155,109,214,0.12) 0%, transparent 60%);
+    pointer-events: none;
+  }
+
+  .scan-line {
+    position: absolute;
+    left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, rgba(155,109,214,0.5), transparent);
+    animation: scan 3s ease-in-out infinite;
+    opacity: 0.6;
+  }
+
+  @keyframes scan {
+    0% { top: 0; opacity: 0; }
+    10% { opacity: 0.6; }
+    90% { opacity: 0.6; }
+    100% { top: 100%; opacity: 0; }
+  }
+
+  .corner-tag {
+    position: absolute;
+    bottom: 1rem;
+    left: 1rem;
+    background: rgba(255,255,255,0.9);
+    border: 1px solid var(--border-bright);
+    border-radius: 4px;
+    padding: 0.4rem 0.75rem;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--teal);
+    letter-spacing: 0.1em;
+  }
+
+  .floating-chip {
+    position: absolute;
+    background: #ffffff;
+    border: 1px solid var(--border-bright);
+    border-radius: 6px;
+    padding: 0.5rem 0.85rem;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--text-muted);
+    white-space: nowrap;
+    animation: float 4s ease-in-out infinite;
+    box-shadow: 0 4px 16px rgba(155,109,214,0.1);
+  }
+
+  .chip-1 { top: -1rem; right: 1.5rem; animation-delay: 0s; color: var(--teal); }
+  .chip-2 { bottom: 3rem; right: -1.5rem; animation-delay: 1.5s; }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-6px); }
+  }
+
+  /* ─── SECTION HEADERS ─── */
+  .section-header {
+    margin-bottom: 3rem;
+  }
+
+  .section-tag {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--teal);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 0.75rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .section-tag::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border-bright);
+    max-width: 60px;
+  }
+
+  h2 {
+    font-family: var(--font-display);
+    font-size: clamp(1.8rem, 3vw, 2.5rem);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1.15;
+  }
+
+  h3 {
+    font-family: var(--font-display);
+    font-size: 1.2rem;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    margin-bottom: 0.75rem;
+  }
+
+  /* ─── HARDWARE SECTION ─── */
+  #hardware {
+    padding: 7rem 0;
+    border-top: 1px solid var(--border);
+  }
+
+  .hw-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+  }
+
+  .hw-photos {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto;
+    gap: 0.75rem;
+  }
+
+  .hw-photo {
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    position: relative;
+  }
+
+  .hw-photo img {
+    width: 100%;
+    height: 160px;
+    object-fit: cover;
+    display: block;
+    filter: saturate(0.8);
+    transition: filter 0.3s;
+  }
+
+  .hw-photo:hover img { filter: saturate(1); }
+
+  .hw-photo.wide {
+    grid-column: 1 / -1;
+  }
+
+  .hw-photo.wide img {
+    height: 200px;
+  }
+
+  .photo-label {
+    position: absolute;
+    bottom: 0.5rem;
+    left: 0.5rem;
+    background: rgba(0,0,0,0.7);
+    border-radius: 3px;
+    padding: 0.2rem 0.5rem;
+    font-family: var(--font-mono);
+    font-size: 9px;
+    color: var(--text-muted);
+    letter-spacing: 0.08em;
+  }
+
+  .hw-content { display: flex; flex-direction: column; justify-content: center; }
+
+  .hw-content .section-header { margin-bottom: 1.5rem; }
+
+  .component-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-bottom: 2rem;
+  }
+
+  .component-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 0.9rem;
+    color: var(--text-muted);
+  }
+
+  .component-item .dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--teal);
+    flex-shrink: 0;
+  }
+
+  .component-item strong {
+    color: var(--text);
+    font-weight: 500;
+  }
+
+  /* ─── HIGHLIGHT CARD ─── */
+  .highlight-card {
+    background: linear-gradient(135deg, rgba(155,109,214,0.07), rgba(224,111,160,0.05));
+    border: 1px solid rgba(155,109,214,0.2);
+    border-radius: 10px;
+    padding: 1.5rem;
+    margin-top: 1.5rem;
+  }
+
+  .highlight-card .card-label {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--teal);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+  }
+
+  .highlight-card p {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    line-height: 1.65;
+  }
+
+  /* ─── INTERESTING COMPONENT ─── */
+  #component {
+    padding: 7rem 0;
+    border-top: 1px solid var(--border);
+    background: linear-gradient(180deg, transparent 0%, rgba(155,109,214,0.03) 50%, transparent 100%);
+  }
+
+  .component-deep {
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: 4rem;
+    align-items: start;
+  }
+
+  .deep-content h3 {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .deep-content .subtitle {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--teal);
+    margin-bottom: 1.5rem;
+    letter-spacing: 0.05em;
+  }
+
+  .deep-content p {
+    font-size: 0.95rem;
+    color: var(--text-muted);
+    line-height: 1.8;
+    margin-bottom: 1.25rem;
+  }
+
+  /* Architecture diagram */
+  .arch-diagram {
+    background: #ffffff;
+    border: 1px solid var(--border-bright);
+    border-radius: 10px;
+    padding: 1.5rem;
+    position: sticky;
+    top: 80px;
+    box-shadow: 0 4px 24px rgba(155,109,214,0.08);
+  }
+
+  .arch-title {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--text-dim);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 1.25rem;
+  }
+
+  .arch-layer {
+    margin-bottom: 0.75rem;
+  }
+
+  .arch-layer-label {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    color: var(--text-dim);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 0.4rem;
+  }
+
+  .arch-nodes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+
+  .arch-node {
+    background: rgba(155,109,214,0.05);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 0.3rem 0.65rem;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--text-muted);
+    white-space: nowrap;
+  }
+
+  .arch-node.teal {
+    background: var(--teal-dim);
+    border-color: rgba(155,109,214,0.3);
+    color: var(--teal);
+  }
+
+  .arch-node.amber {
+    background: var(--amber-dim);
+    border-color: rgba(224,111,160,0.3);
+    color: var(--amber);
+  }
+
+  .arch-arrow {
+    text-align: center;
+    color: var(--teal);
+    font-size: 14px;
+    margin: 0.3rem 0;
+    opacity: 0.6;
+  }
+
+  /* code block */
+  .code-block {
+    background: #f5f0ff;
+    border: 1px solid rgba(155,109,214,0.2);
+    border-radius: 8px;
+    padding: 1.25rem 1.5rem;
+    margin: 1.25rem 0;
+    overflow-x: auto;
+  }
+
+  .code-block pre {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    line-height: 1.7;
+    color: #3a2460;
+  }
+
+  .code-block .kw { color: #c2185b; }
+  .code-block .fn { color: #7b1fa2; }
+  .code-block .str { color: #1565c0; }
+  .code-block .cm { color: #9e8abf; font-style: italic; }
+  .code-block .num { color: #6a1b9a; }
+
+  /* ─── EASE OF USE ─── */
+  #easeofuse {
+    padding: 7rem 0;
+    border-top: 1px solid var(--border);
+  }
+
+  .ease-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    margin-top: 3rem;
+  }
+
+  .ease-card {
+    background: #ffffff;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1.75rem;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+
+  .ease-card:hover {
+    border-color: rgba(155,109,214,0.25);
+    box-shadow: 0 4px 20px rgba(155,109,214,0.08);
+  }
+
+  .ease-card.featured {
+    border-color: rgba(155,109,214,0.2);
+    background: linear-gradient(135deg, rgba(155,109,214,0.04), #ffffff);
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    align-items: center;
+  }
+
+  .ease-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    background: var(--teal-dim);
+    border: 1px solid rgba(0,212,170,0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1rem;
+  }
+
+  .ease-icon svg {
+    width: 18px;
+    height: 18px;
+    stroke: var(--teal);
+    fill: none;
+  }
+
+  .ease-card h3 {
+    font-size: 1.05rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .ease-card p {
+    font-size: 0.875rem;
+    color: var(--text-muted);
+    line-height: 1.7;
+  }
+
+  /* zone diagram */
+  .zone-diagram {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .zone-row {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.6rem 0.85rem;
+    border-radius: 6px;
+    border: 1px solid;
+  }
+
+  .zone-row.green { background: rgba(0,212,170,0.05); border-color: rgba(0,212,170,0.2); }
+  .zone-row.yellow { background: rgba(245,166,35,0.05); border-color: rgba(245,166,35,0.2); }
+  .zone-row.red { background: rgba(220,50,50,0.05); border-color: rgba(220,50,50,0.2); }
+
+  .zone-dot {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .zone-row.green .zone-dot { background: var(--teal); }
+  .zone-row.yellow .zone-dot { background: var(--amber); }
+  .zone-row.red .zone-dot { background: #dc3232; }
+
+  .zone-info { flex: 1; }
+
+  .zone-name {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+  }
+
+  .zone-row.green .zone-name { color: var(--teal); }
+  .zone-row.yellow .zone-name { color: var(--amber); }
+  .zone-row.red .zone-name { color: #dc3232; }
+
+  .zone-desc {
+    font-size: 12px;
+    color: var(--text-dim);
+    margin-top: 0.15rem;
+  }
+
+  .zone-dist {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--text-dim);
+    white-space: nowrap;
+  }
+
+  /* ─── RESULTS ─── */
+  #results {
+    padding: 7rem 0;
+    border-top: 1px solid var(--border);
+  }
+
+  .results-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 3rem;
+  }
+
+  .result-item {
+    background: #ffffff;
+    padding: 2rem 1.5rem;
+    text-align: center;
+  }
+
+  .result-num {
+    font-family: var(--font-display);
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: var(--teal);
+    line-height: 1;
+    margin-bottom: 0.4rem;
+  }
+
+  .result-label {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+
+  .award-banner {
+    background: linear-gradient(135deg, rgba(245,166,35,0.08), var(--amber-dim));
+    border: 1px solid rgba(245,166,35,0.25);
+    border-radius: 10px;
+    padding: 1.5rem 2rem;
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+  }
+
+  .award-icon {
+    font-size: 2rem;
+    flex-shrink: 0;
+  }
+
+  .award-text h3 {
+    font-size: 1rem;
+    color: var(--amber);
+    margin-bottom: 0.25rem;
+  }
+
+  .award-text p {
+    font-size: 0.875rem;
+    color: var(--text-muted);
+  }
+
+  /* ─── WINDBORNE ALIGNMENT ─── */
+  #windborne {
+    padding: 7rem 0;
+    border-top: 1px solid var(--border);
+    background: linear-gradient(180deg, transparent 0%, rgba(0,212,170,0.015) 100%);
+  }
+
+  .alignment-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    margin-top: 3rem;
+  }
+
+  .alignment-card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1.5rem;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+
+  .alignment-card:hover {
+    border-color: rgba(0,212,170,0.2);
+    transform: translateY(-2px);
+  }
+
+  .alignment-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--teal), transparent);
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+
+  .alignment-card:hover::before { opacity: 1; }
+
+  .align-num {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--text-dim);
+    margin-bottom: 0.75rem;
+  }
+
+  .align-skill {
+    font-family: var(--font-display);
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 0.25rem;
+  }
+
+  .align-wb {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--teal);
+    margin-bottom: 0.75rem;
+    letter-spacing: 0.05em;
+  }
+
+  .align-desc {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    line-height: 1.65;
+  }
+
+  /* ─── CONTACT ─── */
+  #contact {
+    padding: 6rem 0;
+    border-top: 1px solid var(--border);
+    text-align: center;
+  }
+
+  #contact h2 { margin-bottom: 1rem; }
+  #contact p {
+    color: var(--text-muted);
+    font-size: 1rem;
+    margin-bottom: 2.5rem;
+    max-width: 480px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .contact-links {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-bottom: 3rem;
+  }
+
+  .contact-chip {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: var(--panel);
+    border: 1px solid var(--border-bright);
+    border-radius: 50px;
+    padding: 0.6rem 1.25rem;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--text-muted);
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+
+  .contact-chip:hover {
+    border-color: var(--teal);
+    color: var(--teal);
+  }
+
+  .contact-chip svg {
+    width: 14px; height: 14px;
+    stroke: currentColor;
+    fill: none;
+  }
+
+  .footer {
+    border-top: 1px solid var(--border);
+    padding: 1.5rem 0;
+    text-align: center;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--text-dim);
+    letter-spacing: 0.1em;
+  }
+
+  /* ─── ANIMATIONS ─── */
+  .fade-up {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+
+  .fade-up.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 768px) {
+    .hero-inner { grid-template-columns: 1fr; }
+    .hw-grid { grid-template-columns: 1fr; }
+    .component-deep { grid-template-columns: 1fr; }
+    .ease-grid { grid-template-columns: 1fr; }
+    .ease-card.featured { grid-template-columns: 1fr; }
+    .results-grid { grid-template-columns: repeat(2, 1fr); }
+    .alignment-grid { grid-template-columns: 1fr; }
+    .nav-links { display: none; }
+    .chip-2 { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="grid-bg"></div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">sfm.portfolio</div>
+  <ul class="nav-links">
+    <li><a href="#hardware">Hardware</a></li>
+    <li><a href="#component">Deep Dive</a></li>
+    <li><a href="#easeofuse">Design</a></li>
+    <li><a href="#results">Results</a></li>
+    <li><a href="#windborne">Fit</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="container">
+    <div class="hero-inner">
+      <div class="hero-text fade-up">
+        <div class="hero-label">Engineering Screen — WindBorne Systems</div>
+        <h1>Semi-Autonomous<br><span>Wheelchair</span><br>Navigation</h1>
+        <p class="hero-sub">
+          A donated power wheelchair rebuilt into a fully sensor-fused autonomous platform — running ROS2, custom firmware, and real-time 3D perception. Built from first principles at Widener University.
+        </p>
+
+        <div class="hero-stats">
+          <div class="stat">
+            <div class="stat-num">6</div>
+            <div class="stat-label">Sensors</div>
+          </div>
+          <div class="stat">
+            <div class="stat-num">20Hz</div>
+            <div class="stat-label">Control Loop</div>
+          </div>
+          <div class="stat">
+            <div class="stat-num">360°</div>
+            <div class="stat-label">Perception</div>
+          </div>
+        </div>
+
+        <div class="hero-btns">
+          <a href="#component" class="btn btn-primary">See the Deep Dive</a>
+          <a href="#windborne" class="btn btn-ghost">WindBorne Fit →</a>
+        </div>
+      </div>
+
+      <div class="hero-visual fade-up" style="transition-delay:0.2s">
+        <div class="floating-chip chip-1">▲ NVIDIA Orin Nano</div>
+        <div class="hero-img-wrap">
+          <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?w=700&q=80" alt="Hardware electronics board with sensors">
+          <div class="hero-img-overlay"></div>
+          <div class="scan-line"></div>
+          <div class="corner-tag">LIVE SENSOR FUSION</div>
+        </div>
+        <div class="floating-chip chip-2">ROS2 · Python · C++</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HARDWARE BUILD -->
+<section id="hardware">
+  <div class="container">
+    <div class="hw-grid">
+      <div class="hw-photos fade-up">
+        <div class="hw-photo wide">
+          <img src="https://images.unsplash.com/photo-1635070041078-e363dbe005cb?w=800&q=80" alt="Full wheelchair system with mounted sensors and compute">
+          <div class="photo-label">Full build — NVIDIA Orin Nano + sensor array</div>
+        </div>
+        <div class="hw-photo">
+          <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?w=400&q=80" alt="ESP32 + BNO08x IMU breadboard">
+          <div class="photo-label">ESP32 + BNO08x IMU</div>
+        </div>
+        <div class="hw-photo">
+          <img src="https://images.unsplash.com/photo-1601132359864-c974e79890ac?w=400&q=80" alt="LiDAR sensor mounted to frame">
+          <div class="photo-label">RPLidar A1M8 — 2D scan</div>
+        </div>
+      </div>
+
+      <div class="hw-content fade-up" style="transition-delay:0.15s">
+        <div class="section-header">
+          <div class="section-tag">01 — Hardware Build</div>
+          <h2>The Platform</h2>
+        </div>
+        <p style="color:var(--text-muted);font-size:0.95rem;line-height:1.8;margin-bottom:1.5rem;">
+          Starting from a donated electric wheelchair from the Mary Campbell Center, I designed and wired a complete autonomous perception stack — from 12V lithium power distribution through edge compute to sensor drivers.
+        </p>
+
+        <div class="component-list">
+          <div class="component-item"><div class="dot"></div><strong>NVIDIA Orin Nano</strong> — edge inference &amp; ROS2 host</div>
+          <div class="component-item"><div class="dot"></div><strong>Pico Flexx</strong> — 3D depth camera, PMD ToF</div>
+          <div class="component-item"><div class="dot"></div><strong>RPLidar A1M8 ×2</strong> — dual 2D scanning, 360°</div>
+          <div class="component-item"><div class="dot"></div><strong>BNO08x IMU</strong> — 9-DOF orientation + gyro</div>
+          <div class="component-item"><div class="dot"></div><strong>HC-SR04 ×4</strong> — ultrasonic near-field ranging</div>
+          <div class="component-item"><div class="dot"></div><strong>ESP32</strong> — MCU bridge, custom serial protocol</div>
+          <div class="component-item"><div class="dot"></div><strong>MCP4728 DAC + CD4066</strong> — motor control interface</div>
+        </div>
+
+        <div class="highlight-card">
+          <div class="card-label">Power architecture</div>
+          <p>Two 12V 54Ah Dakota Lithium batteries feed a circuit breaker, then a DC-DC converter steps to 5V for the compute stack. All wiring and electrical housing designed and routed by hand.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- INTERESTING COMPONENT DEEP DIVE -->
+<section id="component">
+  <div class="container">
+    <div class="section-header fade-up" style="text-align:center;max-width:600px;margin:0 auto 4rem;">
+      <div class="section-tag" style="justify-content:center;">02 — Interesting Component</div>
+      <h2>The ESP32 Hardware Bridge<br>&amp; Custom Serial Protocol</h2>
+    </div>
+
+    <div class="component-deep">
+      <div class="deep-content fade-up">
+        <h3>Operating Principle</h3>
+        <div class="subtitle">ESP32 → ROS2 · UART · Custom framed protocol · Gyro-merge trick</div>
+
+        <p>
+          The most technically interesting component I built is the <strong style="color:var(--text)">ESP32Bridge</strong> — a custom hardware abstraction layer that translates raw microcontroller sensor data into properly typed ROS2 messages. Off-the-shelf serial parsers couldn't handle the heterogeneous mix of IMU quaternions, gyro rates, and ultrasonic distances I needed to multiplex over a single UART link.
+        </p>
+
+        <p>
+          I designed a lightweight framing protocol using angle-bracket delimiters and prefix tags. Each message type is self-identifying — the parser routes on the prefix string and never needs to track state across frames. This makes the protocol trivially extensible: adding a new sensor type is just a new prefix.
+        </p>
+
+        <div class="code-block">
+<pre><span class="cm"># Wire format — self-framing, prefix-routed</span>
+<span class="str">&lt;IMU_Q, 0.12, 0.45, 0.78, 0.32&gt;</span>  <span class="cm">← orientation quaternion</span>
+<span class="str">&lt;IMU_G, 0.042&gt;</span>                    <span class="cm">← gyro rotation rate</span>
+<span class="str">&lt;US, 45, 23, 67, 12&gt;</span>             <span class="cm">← 4 ultrasonic distances (cm)</span></pre>
+        </div>
+
+        <p>
+          The most elegant problem I solved was the <strong style="color:var(--text)">gyro-merge trick</strong>. ROS2's <code style="font-family:var(--font-mono);font-size:12px;color:var(--teal)">sensor_msgs/Imu</code> requires orientation and angular velocity in a single message — but the ESP32 sends them as separate frames to minimize packet size. My node buffers the latest <code style="font-family:var(--font-mono);font-size:12px;color:var(--teal)">gyro_z</code> value and stamps it onto the next quaternion frame before publishing. Zero data loss, no extra bandwidth.
+        </p>
+
+        <div class="code-block">
+<pre><span class="kw">if</span> prefix == <span class="str">"IMU_G"</span>:
+    self._gyro_z = <span class="fn">float</span>(parts[<span class="num">1</span>])  <span class="cm"># buffer it</span>
+<span class="kw">elif</span> prefix == <span class="str">"IMU_Q"</span>:
+    imu_msg.angular_velocity.z = self._gyro_z  <span class="cm"># attach</span>
+    self.imu_pub.<span class="fn">publish</span>(imu_msg)
+<span class="kw">elif</span> prefix == <span class="str">"US"</span>:
+    <span class="cm"># Each distance → a single 3D point for SLAM</span>
+    cloud = pc2.<span class="fn">create_cloud_xyz32</span>(
+        header, [[dist_m, <span class="num">0.0</span>, <span class="num">0.0</span>]]
+    )</pre>
+        </div>
+
+        <p>
+          The ultrasonic-to-PointCloud2 conversion is another choice worth noting: rather than writing a custom message type, I map each distance reading to a single 3D point <code style="font-family:var(--font-mono);font-size:12px;color:var(--teal)">[dist, 0, 0]</code> and let ROS2's transform system rotate it into the correct world frame. The perception pipeline sees it as just another point cloud — no special casing required.
+        </p>
+
+        <p style="color:var(--text-muted);">
+          This component directly demonstrates the kind of low-level sensor integration work WindBorne does — custom drivers, calibration logic, and data pipelines for instruments that need to work reliably in harsh, uncontrolled environments.
+        </p>
+      </div>
+
+      <div class="fade-up" style="transition-delay:0.15s">
+        <div class="arch-diagram">
+          <div class="arch-title">System architecture</div>
+
+          <div class="arch-layer">
+            <div class="arch-layer-label">Hardware</div>
+            <div class="arch-nodes">
+              <div class="arch-node">Pico Flexx (ToF)</div>
+              <div class="arch-node">RPLidar ×2</div>
+              <div class="arch-node">BNO08x IMU</div>
+              <div class="arch-node">HC-SR04 ×4</div>
+            </div>
+          </div>
+
+          <div class="arch-arrow">↓ UART</div>
+
+          <div class="arch-layer">
+            <div class="arch-layer-label">MCU Bridge</div>
+            <div class="arch-nodes">
+              <div class="arch-node teal">ESP32Bridge</div>
+              <div class="arch-node teal">Custom Serial Protocol</div>
+            </div>
+          </div>
+
+          <div class="arch-arrow">↓ ROS2 Topics</div>
+
+          <div class="arch-layer">
+            <div class="arch-layer-label">ROS2 Drivers</div>
+            <div class="arch-nodes">
+              <div class="arch-node">/imu_data</div>
+              <div class="arch-node">/ultrasonic</div>
+              <div class="arch-node">/flexx2/points</div>
+              <div class="arch-node">/rplidarpc_left</div>
+              <div class="arch-node">/rplidarpc_right</div>
+            </div>
+          </div>
+
+          <div class="arch-arrow">↓ 20Hz fusion</div>
+
+          <div class="arch-layer">
+            <div class="arch-layer-label">Navigation Brain</div>
+            <div class="arch-nodes">
+              <div class="arch-node amber">SensorAvoidance Node</div>
+            </div>
+          </div>
+
+          <div class="arch-arrow">↓</div>
+
+          <div class="arch-layer">
+            <div class="arch-layer-label">Output</div>
+            <div class="arch-nodes">
+              <div class="arch-node">cmd_vel → motors</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EASE OF USE -->
+<section id="easeofuse">
+  <div class="container">
+    <div class="section-header fade-up">
+      <div class="section-tag">03 — Design for Ease of Use</div>
+      <h2>3-Zone Obstacle Avoidance<br>with Hysteresis</h2>
+    </div>
+
+    <div class="ease-grid">
+      <!-- Featured card -->
+      <div class="ease-card featured fade-up">
+        <div>
+          <div class="ease-icon">
+            <svg viewBox="0 0 24 24" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M12 8v4m0 4h.01"/></svg>
+          </div>
+          <h3>Why hysteresis is the key design choice</h3>
+          <p>
+            Without hysteresis, obstacle avoidance systems oscillate — the wheelchair spins back and forth at a threshold boundary, confusing and alarming users. I solved this with two asymmetric thresholds: avoidance <em>activates</em> at 20 cm but only <em>clears</em> at 35 cm. This 15 cm dead-band means the system commits to an action before reversing it, giving smooth, predictable behavior at the cost of a tiny bit of conservatism.
+          </p>
+          <p style="margin-top:0.75rem;">
+            This is the difference between a system that technically works and one a person with a disability would actually trust. Every design choice in the navigation layer prioritized behavioral predictability over raw performance.
+          </p>
+        </div>
+        <div class="zone-diagram">
+          <div style="font-family:var(--font-mono);font-size:10px;color:var(--text-dim);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:0.75rem;">3-zone control logic</div>
+          <div class="zone-row green">
+            <div class="zone-dot"></div>
+            <div class="zone-info">
+              <div class="zone-name">ZONE 1 — Clear</div>
+              <div class="zone-desc">Full speed · proportional heading</div>
+            </div>
+            <div class="zone-dist">&gt; 1.2 m</div>
+          </div>
+          <div class="zone-row yellow">
+            <div class="zone-dot"></div>
+            <div class="zone-info">
+              <div class="zone-name">ZONE 2 — Caution</div>
+              <div class="zone-desc">Reduced speed · turn to clearer side</div>
+            </div>
+            <div class="zone-dist">0.55 – 1.2 m</div>
+          </div>
+          <div class="zone-row red">
+            <div class="zone-dot"></div>
+            <div class="zone-info">
+              <div class="zone-name">ZONE 3 — Stop</div>
+              <div class="zone-desc">Full stop · rotate in place</div>
+            </div>
+            <div class="zone-dist">&lt; 0.55 m</div>
+          </div>
+          <div style="margin-top:0.75rem;padding:0.6rem 0.85rem;background:rgba(255,255,255,0.02);border:1px solid var(--border);border-radius:6px;">
+            <div style="font-family:var(--font-mono);font-size:10px;color:var(--text-dim);">Hysteresis thresholds</div>
+            <div style="font-family:var(--font-mono);font-size:11px;color:var(--teal);margin-top:0.3rem;">ACTIVATE: 20 cm · CLEAR: 35 cm</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ease-card fade-up" style="transition-delay:0.1s">
+        <div class="ease-icon">
+          <svg viewBox="0 0 24 24" stroke-width="1.5"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+        </div>
+        <h3>Sensor fusion, not sensor priority</h3>
+        <p>
+          Rather than trusting a single sensor, the node subscribes to all five data streams (2× LiDAR, 2× depth camera, 4× ultrasonic) and takes the minimum distance per zone. Any sensor detecting danger triggers the response. This means a sensor dropout doesn't create a blindspot — it just means slightly less coverage.
+        </p>
+      </div>
+
+      <div class="ease-card fade-up" style="transition-delay:0.2s">
+        <div class="ease-icon">
+          <svg viewBox="0 0 24 24" stroke-width="1.5"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8m-4-4v4"/></svg>
+        </div>
+        <h3>RViz live visualization</h3>
+        <p>
+          Real-time point cloud visualization in RViz gives operators an immediate, intuitive view of what the robot sees — colored clouds by sensor source, URDF wheelchair model, and ultrasonic positions as 3D markers. Debugging in the field requires visual feedback, not log parsing.
+        </p>
+      </div>
+
+      <div class="ease-card fade-up" style="transition-delay:0.3s">
+        <div class="ease-icon">
+          <svg viewBox="0 0 24 24" stroke-width="1.5"><path d="M9 3H5a2 2 0 00-2 2v4m6-6h10a2 2 0 012 2v4M9 3v18m0 0h10a2 2 0 002-2V9M9 21H5a2 2 0 01-2-2V9m0 0h18"/></svg>
+        </div>
+        <h3>MATLAB simulation-first validation</h3>
+        <p>
+          Before any hardware deployment, I validated the 3-zone logic in a MATLAB simulation with a 3D STL wheelchair model and 42 ray-cast fake LiDAR beams — the same algorithm as the real node. Identical thresholds, identical state machine. Hardware got parameters that were already proven, not guesses.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- RESULTS -->
+<section id="results">
+  <div class="container">
+    <div class="section-header fade-up">
+      <div class="section-tag">04 — Results &amp; Impact</div>
+      <h2>What It Delivered</h2>
+    </div>
+
+    <div class="results-grid fade-up">
+      <div class="result-item">
+        <div class="result-num">6</div>
+        <div class="result-label">Sensors Integrated</div>
+      </div>
+      <div class="result-item">
+        <div class="result-num">20Hz</div>
+        <div class="result-label">Real-time Control</div>
+      </div>
+      <div class="result-item">
+        <div class="result-num">4</div>
+        <div class="result-label">LiDAR Driver Versions</div>
+      </div>
+      <div class="result-item">
+        <div class="result-num">2</div>
+        <div class="result-label">ROS Versions Shipped</div>
+      </div>
+    </div>
+
+    <div class="award-banner fade-up">
+      <div class="award-icon">🏆</div>
+      <div class="award-text">
+        <h3>Undergraduate Research Symposium — Award Winner</h3>
+        <p>Recognized for technical innovation and real-world application of autonomous systems research. Presented full perception stack, obstacle avoidance results, and MATLAB simulation validation.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WINDBORNE ALIGNMENT -->
+<section id="windborne">
+  <div class="container">
+    <div class="section-header fade-up" style="text-align:center;max-width:640px;margin:0 auto 1rem;">
+      <div class="section-tag" style="justify-content:center;">05 — Why WindBorne</div>
+      <h2>Direct Skill Alignment</h2>
+      <p style="color:var(--text-muted);font-size:0.95rem;margin-top:1rem;">
+        WindBorne's sensors internship is about building, calibrating, and understanding instruments that work in the harshest environments on Earth. Here's exactly how this project maps to that.
+      </p>
+    </div>
+
+    <div class="alignment-grid">
+      <div class="alignment-card fade-up">
+        <div class="align-num">01</div>
+        <div class="align-skill">Hardware Drivers from Scratch</div>
+        <div class="align-wb">→ WB: sensor manufacturing &amp; calibration infrastructure</div>
+        <div class="align-desc">Wrote hardware drivers for 3 distinct sensor types (ToF depth camera, 2D LiDAR, 9-DOF IMU) — not wrappers, actual driver logic from SDK up. The discipline of making sensors produce trustworthy data is identical to calibration work.</div>
+      </div>
+
+      <div class="alignment-card fade-up" style="transition-delay:0.1s">
+        <div class="align-num">02</div>
+        <div class="align-skill">Bias, Drift, and Data Integrity</div>
+        <div class="align-wb">→ WB: investigate bias, systematic error, contamination</div>
+        <div class="align-desc">The gyro-merge trick exists precisely because IMU data has timing artifacts — I had to understand the sensor's output timing to patch it correctly. Hysteresis thresholds were set by analyzing real detection drift at zone boundaries, not guesswork.</div>
+      </div>
+
+      <div class="alignment-card fade-up" style="transition-delay:0.2s">
+        <div class="align-num">03</div>
+        <div class="align-skill">Simulation → Hardware Validation</div>
+        <div class="align-wb">→ WB: test sensors in flight, analyze flight performance data</div>
+        <div class="align-desc">Built a full MATLAB simulation with identical control logic before touching hardware. The mentality — validate the algorithm before trusting it in the field — is the same discipline that flight-testing meteorological sensors demands.</div>
+      </div>
+
+      <div class="alignment-card fade-up" style="transition-delay:0.05s">
+        <div class="align-num">04</div>
+        <div class="align-skill">Custom Calibration Infrastructure</div>
+        <div class="align-wb">→ WB: improve calibration infrastructure</div>
+        <div class="align-desc">Designed the serial protocol and ROS2 bridge from scratch — this is calibration infrastructure. Choosing the right coordinate frame transforms, sensor origin offsets, and thresholds all require the same iterative measurement and correction mindset.</div>
+      </div>
+
+      <div class="alignment-card fade-up" style="transition-delay:0.15s">
+        <div class="align-num">05</div>
+        <div class="align-skill">Python + Linux + Data Analysis</div>
+        <div class="align-wb">→ WB: Python proficiency, Linux/bash, data analysis</div>
+        <div class="align-desc">Every node is pure Python on Ubuntu. I debug over serial terminals, profile node timing in bash, and parse sensor logs to tune thresholds. The toolchain is identical to what WindBorne's data analysis pipeline requires.</div>
+      </div>
+
+      <div class="alignment-card fade-up" style="transition-delay:0.25s">
+        <div class="align-num">06</div>
+        <div class="align-skill">End-to-End Ownership</div>
+        <div class="align-wb">→ WB: high agency, own projects end-to-end</div>
+        <div class="align-desc">I started with a donated wheelchair and ended with a working autonomous perception system — wiring, firmware, drivers, ROS2 nodes, simulation, and deployment. No handoff. The same ownership WindBorne needs for sensors going into a global balloon constellation.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="container">
+    <div class="fade-up">
+      <div class="section-tag" style="justify-content:center;">Questions via POST request</div>
+      <h2>Let's Talk</h2>
+      <p>
+        Reach out by email or LinkedIn — I'm excited about the opportunity to bring this hands-on sensor integration work to WindBorne's constellation.
+      </p>
+
+      <div class="contact-links">
+        <a href="mailto:salient@example.com" class="contact-chip">
+          <svg viewBox="0 0 24 24" stroke-width="1.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          salient@example.com
+        </a>
+        <a href="https://linkedin.com/in/salient-fausta-makia" target="_blank" class="contact-chip">
+          <svg viewBox="0 0 24 24" stroke-width="1.5"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+          LinkedIn
+        </a>
+        <a href="https://github.com/salient-makia" target="_blank" class="contact-chip">
+          <svg viewBox="0 0 24 24" stroke-width="1.5"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/></svg>
+          GitHub
+        </a>
+      </div>
+
+      <p style="font-family:var(--font-mono);font-size:11px;color:var(--text-dim);letter-spacing:0.05em;">
+        Salient Fausta Makia · Junior Robotics, Mechatronics &amp; Automation Engineering · Widener University
+      </p>
+    </div>
+  </div>
+</section>
+
+<div class="footer">
+  <div class="container">
+    built for windborne systems sensors internship application · 2025
+  </div>
+</div>
+
+<script>
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.12 });
+
+  document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+  // Trigger hero immediately
+  setTimeout(() => {
+    document.querySelectorAll('#hero .fade-up').forEach(el => el.classList.add('visible'));
+  }, 100);
+</script>
+</body>
+</html>
